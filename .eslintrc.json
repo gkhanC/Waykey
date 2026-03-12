@@ -1,0 +1,17 @@
+{
+    "env": {
+        "node": true,
+        "es2021": true,
+        "jest": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": 12,
+        "sourceType": "commonjs"
+    },
+    "rules": {
+        "no-console": "off",
+        "semi": ["error", "always"],
+        "quotes": ["warn", "single"]
+    }
+}
