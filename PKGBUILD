@@ -1,9 +1,10 @@
+# Maintainer: Gökhan C. <caygkhan@gmail.com>
 pkgname=waykey
 pkgver=1.0.0
 pkgrel=1
 pkgdesc="Next-generation Wayland-compatible automation engine (AutoHotkey alternative)"
 arch=('x86_64')
-url="https://github.com/waykey/waykey"
+url="https://github.com/gkhanC/Waykey"
 license=('MIT')
 depends=('nodejs' 'hyprland' 'libevdev' 'polkit')
 makedepends=('npm' 'cmake' 'make' 'gcc')

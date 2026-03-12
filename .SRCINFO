@@ -1,0 +1,18 @@
+pkgbase = waykey
+	pkgdesc = Next-generation Wayland-compatible automation engine (AutoHotkey alternative)
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/gkhanC/Waykey
+	install = waykey.install
+	arch = x86_64
+	license = MIT
+	makedepends = npm
+	makedepends = cmake
+	makedepends = make
+	makedepends = gcc
+	depends = nodejs
+	depends = hyprland
+	depends = libevdev
+	depends = polkit
+
+pkgname = waykey
