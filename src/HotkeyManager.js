@@ -214,9 +214,15 @@ class HotkeyManager extends EventEmitter {
                 if (hs.condition && !hs.condition(activeWindow)) continue;
                 
                 if (this.stringBuffer.endsWith(hs.trigger)) {
-                    this.waykeyApi.log(`Triggered Hotstring: ${hs.trigger}`, 'trigger');
-                    this.executeHotstring(hs);
-                    this.stringBuffer = '';
+                    // Check for word boundary (space or start of string)
+                    const triggerIndex = this.stringBuffer.length - hs.trigger.length;
+                    const charBefore = triggerIndex > 0 ? this.stringBuffer[triggerIndex - 1] : null;
+
+                    if (charBefore === null || charBefore === ' ') {
+                        this.waykeyApi.log(`Triggered Hotstring: ${hs.trigger}`, 'trigger');
+                        this.executeHotstring(hs);
+                        this.stringBuffer = '';
+                    }
                 }
             }
         } else if (code === Keys.KEY_BACKSPACE) {

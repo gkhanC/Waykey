@@ -90,5 +90,8 @@ module.exports = (WayKey) => {
     
     // HTML Boilerplate
     WayKey.hotstring(';html', '<!DOCTYPE html>\n<html>\n<head></head>\n<body></body>\n</html>');
+
+    // 💡 Note: Hotstrings require a word boundary (space or start of string) to trigger.
+    // 'xxxbtw' will not trigger, but 'xxx btw' will.
 };
 ```

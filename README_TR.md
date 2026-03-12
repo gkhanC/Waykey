@@ -55,8 +55,8 @@ WayKey, tüm modern Linux dağıtımlarına kolayca uyum sağlaması için "Tek 
 Terminali açın, bu depoyu indirin ve otomatik kurulumu başlatın:
 
 ```bash
-git clone https://github.com/yourusername/HypeKey.git
-cd HypeKey
+git clone https://github.com/gkhanC/Waykey.git
+cd Waykey
 chmod +x install.sh
 ./install.sh
 ```

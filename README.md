@@ -54,8 +54,8 @@ WayKey comes with an automated universal installer for modern Linux distribution
 Clone the repository and run the setup script:
 
 ```bash
-git clone https://github.com/yourusername/HypeKey.git
-cd HypeKey
+git clone https://github.com/gkhanC/Waykey.git
+cd Waykey
 chmod +x install.sh
 ./install.sh
 ```

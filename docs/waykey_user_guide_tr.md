@@ -82,6 +82,9 @@ module.exports = (WayKey) => {
     
     // Kurumsal e-posta imzanız
     WayKey.hotstring('@@', 'gokhan@example.com');
+
+    // 💡 Not: Hotstring tetiklenmesi için tetikleyicinin ayrı yazılması (başında boşluk olması) 
+    // veya satır başında olması gerekir. Örneğin 'xxxbtw' tetiklenmezken 'xxx btw' tetiklenir.
 };
 ```
 
