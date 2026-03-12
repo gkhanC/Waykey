@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WayKey Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#000000',
+                        darker: '#050505',
+                        terminal: '#0c120c',
+                        neon: '#00ff41',
+                        neonDark: '#008f11'
+                    },
+                    fontFamily: {
+                        mono: ['"Fira Code"', '"Courier New"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .cyber-panel {
+                @apply bg-terminal/90 border border-neonDark/40 rounded-sm shadow-[0_0_15px_rgba(0,143,17,0.15)] ring-1 ring-neon/10 backdrop-blur-sm;
+            }
+            .cyber-button {
+                @apply bg-neon/10 hover:bg-neon/20 hover:shadow-[0_0_10px_rgba(0,255,65,0.4)] hover:border-neon text-neon border border-neonDark/50 rounded-sm transition-all duration-200 flex items-center font-mono font-bold uppercase tracking-wider;
+            }
+            .cyber-button-danger {
+                @apply bg-red-500/10 hover:bg-red-500/20 hover:shadow-[0_0_10px_rgba(239,68,68,0.4)] hover:border-red-500 text-red-500 border border-red-900/50 rounded-sm transition-all duration-200 flex items-center font-mono font-bold uppercase tracking-wider;
+            }
+        }
+        body {
+            font-family: '"Fira Code"', "Courier New", monospace;
+            background-color: #020202;
+            background-image: 
+                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            min-height: 100vh;
+        }
+        /* Custom scrollbar for terminal vibe */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #008f11; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ff41; }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="text-neon p-6 selection:bg-neon selection:text-black">
+    <div class="max-w-6xl mx-auto space-y-6">
+        <!-- Header -->
+        <header class="flex justify-between items-center cyber-panel p-6">
+            <div>
+                <h1 class="text-3xl font-bold text-neon tracking-widest flex items-center drop-shadow-[0_0_8px_rgba(0,255,65,0.8)]">
+                    <span class="mr-2 opacity-70">&gt;_</span>WAYKEY<span class="animate-pulse ml-1 opacity-80">_</span>
+                </h1>
+                <p class="text-neonDark text-sm mt-1 uppercase font-bold tracking-widest">root@system:~# automation_engine</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="restartEngine()" title="Restart WayKey Engine" class="cyber-button px-4 py-2 text-xs">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    REBOOT
+                </button>
+                <button onclick="stopEngine()" title="Stop WayKey Engine" class="cyber-button-danger px-4 py-2 text-xs">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+                    KILL
+                </button>
+                <button onclick="openConfig()" class="cyber-button px-4 py-2 text-xs">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    CONFIG
+                </button>
+                <div class="flex items-center space-x-3 bg-black/50 px-3 py-1.5 border border-neon/20 rounded-sm">
+                    <span class="relative flex h-3 w-3">
+                      <span id="status-ping" class="animate-ping absolute inline-flex h-full w-full rounded-sm bg-neon opacity-75"></span>
+                      <span id="status-dot" class="relative inline-flex h-3 w-3 rounded-sm bg-neon"></span>
+                    </span>
+                    <span id="status-text" class="text-xs font-bold text-neon uppercase tracking-wider">SYSTEM ACTIVE</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Left Column -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- System Status / Active Window -->
+                <div class="cyber-panel p-6">
+                    <h2 class="text-lg font-bold text-neon mb-4 flex items-center border-b border-neonDark/30 pb-2">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        TARGET_PROC_FOCUS
+                    </h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-black/60 p-4 border-l-2 border-neon">
+                            <p class="text-[10px] text-neonDark uppercase tracking-widest mb-1 font-bold">WM_CLASS_NAME</p>
+                            <p id="active-class" class="text-lg text-neon font-bold drop-shadow-[0_0_5px_rgba(0,255,65,0.5)]">[AWAITING]</p>
+                        </div>
+                        <div class="bg-black/60 p-4 border-l-2 border-neonDark">
+                            <p class="text-[10px] text-neonDark uppercase tracking-widest mb-1 font-bold">PROC_TITLE</p>
+                            <p id="active-title" class="text-sm truncate text-green-300" title="Waiting...">[AWAITING]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hotkeys Manager -->
+                <div class="cyber-panel p-6">
+                    <div class="flex justify-between items-center mb-4 border-b border-neonDark/30 pb-2">
+                        <h2 class="text-lg font-bold text-neon flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                            HOTKEY REGISTRY
+                        </h2>
+                        <span class="text-[10px] font-bold bg-neon/20 border border-neon/50 px-2 py-1 text-neon tracking-widest" id="hotkey-count">0 LOADED</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-[10px] text-neonDark uppercase tracking-widest border-b border-neonDark/50 bg-black/40">
+                                    <th class="py-2 px-3 font-bold">Trigger</th>
+                                    <th class="py-2 px-3 font-bold">Type</th>
+                                    <th class="py-2 px-3 font-bold">Context</th>
+                                    <th class="py-2 px-3 font-bold">Description</th>
+                                    <th class="py-2 px-3 font-bold">Status</th>
+                                    <th class="py-2 px-3 font-bold text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hotkeys-list" class="text-sm divide-y divide-neonDark/20 bg-black/20">
+                                <tr><td colspan="6" class="py-4 text-center text-neonDark uppercase font-bold text-xs tracking-widest">NO_PAYLOADS_FOUND</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <!-- Live Logs -->
+                <div class="cyber-panel p-6 flex flex-col h-[500px]">
+                    <h2 class="text-lg font-bold text-neon mb-4 flex items-center border-b border-neonDark/30 pb-2">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16"></path></svg>
+                        SYS_JOURNAL
+                    </h2>
+                    <div id="logs-container" class="flex-1 bg-black/90 p-4 font-mono text-[11px] overflow-y-auto space-y-1.5 border border-neonDark/30">
+                        <div class="text-neon">> WAYKEY_DAEMON_INIT...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.io connection -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        
+        // DOM Elements
+        const elLogs = document.getElementById('logs-container');
+        const elClass = document.getElementById('active-class');
+        const elTitle = document.getElementById('active-title');
+        const elHotkeys = document.getElementById('hotkeys-list');
+        const elHotkeysCount = document.getElementById('hotkey-count');
+        const elStatusText = document.getElementById('status-text');
+        
+        function appendLog(msg, type = 'info') {
+            const div = document.createElement('div');
+            const time = new Date().toLocaleTimeString('en-US', {hour12: false, hour: '2-digit', minute:'2-digit', second:'2-digit'});
+            
+            let color = 'text-neonDark'; // Default info
+            if (type === 'error') color = 'text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]';
+            if (type === 'success') color = 'text-neon drop-shadow-[0_0_5px_rgba(0,255,65,0.8)]';
+            if (type === 'trigger') color = 'text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]';
+            
+            div.className = `break-words ${color} flex`;
+            div.innerHTML = `<span class="opacity-50 mr-2 whitespace-nowrap">[${time}]</span> <span class="flex-1">&gt; ${msg}</span>`;
+            
+            elLogs.appendChild(div);
+            // Autoscroll
+            elLogs.scrollTop = elLogs.scrollHeight;
+        }
+
+        socket.on('connect', () => {
+            document.getElementById('status-dot').className = 'relative inline-flex rounded-sm h-3 w-3 bg-neon';
+            document.getElementById('status-ping').style.display = 'block';
+            elStatusText.textContent = 'SYSTEM ACTIVE';
+            elStatusText.className = 'text-xs font-bold text-neon uppercase tracking-wider';
+            appendLog('Link Established. SECURE CHANNEL OPEN.', 'success');
+        });
+
+        socket.on('disconnect', () => {
+            document.getElementById('status-dot').className = 'relative inline-flex rounded-sm h-3 w-3 bg-red-600';
+            document.getElementById('status-ping').style.display = 'none';
+            elStatusText.textContent = 'SYSTEM OFF';
+            elStatusText.className = 'text-xs font-bold text-red-500 uppercase tracking-wider';
+            appendLog('CONNECTION LOST. RE-ESTABLISHING UPLINK...', 'error');
+        });
+
+        socket.on('activeWindow', (info) => {
+            elClass.textContent = info.class || 'N/A';
+            elTitle.textContent = info.title || 'N/A';
+            elTitle.title = info.title || '';
+        });
+
+        socket.on('log', (log) => {
+            appendLog(log.message, log.type);
+        });
+
+        // Receiving hotkey registry state
+        socket.on('hotkeys', (list) => {
+            elHotkeysCount.textContent = `${list.length} LOADED`;
+            if (list.length === 0) {
+                elHotkeys.innerHTML = '<tr><td colspan="6" class="py-4 text-center text-neonDark uppercase font-bold text-xs tracking-widest">NO_PAYLOADS_FOUND</td></tr>';
+                return;
+            }
+            
+            elHotkeys.innerHTML = '';
+            list.forEach((hk, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-neon/10 transition-colors group';
+                tr.innerHTML = `
+                    <td class="py-3 px-3 font-semibold text-neon drop-shadow-[0_0_3px_rgba(0,255,65,0.8)]">${hk.trigger}</td>
+                    <td class="py-3 px-3"><span class="bg-neonDark/20 border border-neonDark/50 px-2 py-0.5 rounded-sm text-[10px] uppercase">${hk.type || 'Hotkey'}</span></td>
+                    <td class="py-3 px-3 text-neon/70 truncate max-w-[120px]" title="${hk.context || 'Global'}">${hk.context || 'Global'}</td>
+                    <td class="py-3 px-3 text-neon/60 truncate max-w-[200px] text-xs" title="${hk.desc || '-'}">${hk.desc || '-'}</td>
+                    <td class="py-3 px-3">
+                        <span class="inline-flex items-center text-xs font-bold">
+                            <span class="w-1.5 h-1.5 rounded-none mr-2 ${hk.enabled ? 'bg-neon shadow-[0_0_5px_rgba(0,255,65,1)]' : 'bg-red-600'}"></span>
+                            ${hk.enabled ? 'ACTIVE' : 'BLOCKED'}
+                        </span>
+                    </td>
+                    <td class="py-2 px-3 text-right whitespace-nowrap">
+                        <button onclick="triggerHotkey('${hk.id}')" class="text-[10px] font-bold bg-neon/10 hover:bg-neon/30 text-neon border border-neon/50 rounded-sm px-3 py-1 mr-1 transition-all hover:shadow-[0_0_8px_rgba(0,255,65,0.5)]">EXEC</button>
+                        <button onclick="disableHotkey('${hk.id}')" class="text-[10px] font-bold bg-red-500/10 hover:bg-red-500/30 text-red-500 border border-red-500/50 rounded-sm px-3 py-1 transition-all hover:shadow-[0_0_8px_rgba(239,68,68,0.5)]">HALT</button>
+                    </td>
+                `;
+                elHotkeys.appendChild(tr);
+            });
+        });
+        
+        function triggerHotkey(id) {
+            socket.emit('command', { action: 'triggerHotkey', id });
+        }
+
+        function disableHotkey(id) {
+            socket.emit('command', { action: 'disableHotkey', id });
+        }
+
+        function openConfig() {
+            socket.emit('command', { action: 'openConfig' });
+        }
+        function stopEngine() {
+            if (confirm("Are you sure you want to completely stop the WayKey engine?")) {
+                socket.emit('command', { action: 'stopEngine' });
+            }
+        }
+
+        function restartEngine() {
+            socket.emit('command', { action: 'restartEngine' });
+            appendLog('Restarting engine...', 'info');
+        }
+    </script>
+</body>
+</html>
