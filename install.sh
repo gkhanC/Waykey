@@ -37,18 +37,15 @@ cat <<EOF > waykey.service
 [Unit]
 Description=WayKey Automation Engine (AutoHotkey alternative for Wayland)
 After=graphical-session.target
-BindsTo=graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/node $(pwd)/run.js
+ExecStart=uwsm app -- /usr/bin/node $(pwd)/run.js
 Restart=on-failure
 RestartSec=3
 Environment=NODE_ENV=production
 Environment=UV_THREADPOOL_SIZE=128
-
-[Install]
-WantedBy=graphical-session.target
 EOF
 
 cp waykey.service "$HOME/.config/systemd/user/"
@@ -70,12 +67,12 @@ Categories=Utility;Settings;System;
 EOF
 update-desktop-database "$HOME/.local/share/applications/" || true
 
-# 6. Enable and Start
-echo "[6/6] Enabling and starting the WayKey background service..."
-systemctl --user enable --now waykey.service
 
 echo ""
 echo "✅ Installation Complete!"
 echo "➡️  You can now search for 'WayKey Dashboard' in your Application Menu."
 echo "➡️  Your config file is loaded from: ~/.config/waykey/waykey.config.js"
 echo "➡️  To check status: systemctl --user status waykey"
+echo "Waykey is not automatically enabled as a background service to prevent compositor conflicts."
+echo "To start it, add the following line to your hyprland.conf (or your compositor's autostart file):"
+echo "exec-once = uwsm app -- /usr/bin/node /opt/waykey/run.js"
