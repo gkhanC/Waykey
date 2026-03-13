@@ -111,8 +111,6 @@ For an exhaustive list of `WayKey.device` commands, Keycodes, and advanced funct
 * [API Reference](API_REFERENCE_EN.md) 
 * [Advanced User Guide (Writing Scripts)](docs/waykey_user_guide_en.md)
 
----
-
 ## 🪪 Architecture
 WayKey is split into highly-efficient modular layers:
 1. **C++ Native Node Addon**: Directly accesses `/dev/input/*` via `evdev` to grab un-blocked keypresses, and emits synthetic keystrokes into a virtual `/dev/uinput` keyboard handler.
@@ -125,3 +123,46 @@ Issues and Pull Requests are heavily encouraged! Since X11 tools like `xdotool` 
 
 ## 📄 License
 MIT License. Free to use and modify!
+
+## Troubleshooting
+
+<details>
+<summary><b>System Hangs on a Black Screen / Waykey Fails to Start (Hyprland & uwsm)</b></summary>
+
+### The Problem
+When launching Wayland compositors (like Hyprland) using `uwsm`, you might experience a black screen on startup. This happens because `waykey` attempts to create virtual input devices via `/dev/uinput`, but standard users lack the necessary hardware permissions by default. This "Permission denied" error causes the Node.js process to crash (core dump), which subsequently halts the entire `uwsm` graphical session startup sequence.
+
+### How to Diagnose
+You can verify if this permission issue is the root cause by checking your user-level systemd logs. 
+
+Check the specific service logs for the current boot:
+```bash
+journalctl --user -b -p 3
+```
+**If the logs indicate a ```Permission denied``` error related to uinput or ```VirtualDevice::setupDevice```, proceed to the solution below.**
+
+The Solution
+---
+To fix this, you need to grant your user account the proper kernel-level permissions to manage virtual input devices.
+
+1. Add your user to the input group:
+This allows your user account to access input devices.
+```bash
+sudo usermod -aG input $USER
+```
+2. Create a specific udev rule:
+This rule grants the input group read and write access to the virtual device node.
+```bash
+echo 'KERNEL=="uinput", MODE="0660", GROUP="input", OPTIONS+="static_node=uinput"' | sudo tee /etc/udev/rules.d/99-uinput.rules
+```
+3. Reload the udev rules:
+Apply the new hardware rules immediately without needing to restart the core system.
+```bash
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
+4. Apply group changes:
+Reboot your system (or completely log out and log back in). Your user must start a fresh session for the new input group permissions to take effect.
+
+Once applied, waykey will start successfully alongside your compositor without hanging the session.
+
+</details>
