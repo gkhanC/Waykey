@@ -59,7 +59,7 @@ cat <<EOF > "$HOME/.local/share/applications/waykey.desktop"
 [Desktop Entry]
 Name=WayKey Dashboard
 Comment=Linux Native Automation Engine (AutoHotkey alternative)
-Exec=xdg-open http://localhost:8080
+Exec=sh -c "systemctl --user start waykey.service && sleep 1 && xdg-open http://localhost:8080"
 Icon=preferences-system
 Terminal=false
 Type=Application
