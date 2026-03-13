@@ -1,6 +1,6 @@
 # Maintainer: Gökhan C. <caygkhan@gmail.com>
 pkgname=waykey
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="Next-generation Wayland-compatible automation engine (AutoHotkey alternative)"
 arch=('x86_64')
@@ -13,10 +13,10 @@ source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}.tar.gz"
         "waykey.service"
         "waykey.sh"
         "99-waykey-uinput.rules")
-sha256sums=('SKIP'
-            'SKIP'
-            'SKIP'
-            'SKIP')
+sha256sums=('dbd6364d33c0176a83a38faeb74cda6602f5da9d0dab5f961c0f320d54b08059'
+            '4169b8f01c999106cf7ef52ec411c8a2b49dd37cb80f1f3fa914a35d6be75dd3'
+            '61623bca691d4a81407c401bd29ebd791d377a33f75eb2c5f2921c376956c516'
+            '7ebfb37b30ee3863184e2b636268f4a5d2a62221504eff652000258781d74277')
 
 package() {
     cd "${srcdir}/Waykey-${pkgver}"
