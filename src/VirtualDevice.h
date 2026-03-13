@@ -16,6 +16,12 @@ public:
     VirtualDevice();
     ~VirtualDevice();
 
+    /**
+     * @brief Initializes the virtual device by opening /dev/uinput and configuring it.
+     * @throws std::runtime_error if the device cannot be initialized.
+     */
+    void setup();
+
     // Disable copy and assignment for RAII safety
     VirtualDevice(const VirtualDevice&) = delete;
     VirtualDevice& operator=(const VirtualDevice&) = delete;

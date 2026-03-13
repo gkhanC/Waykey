@@ -18,6 +18,11 @@ Napi::Object VirtualDeviceWrapper::Init(Napi::Env env, Napi::Object exports) {
 
 VirtualDeviceWrapper::VirtualDeviceWrapper(const Napi::CallbackInfo& info)
     : Napi::ObjectWrap<VirtualDeviceWrapper>(info), m_device() {
+    try {
+        m_device.setup();
+    } catch (const std::exception& e) {
+        Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
+    }
 }
 
 Napi::Value VirtualDeviceWrapper::EmitKey(const Napi::CallbackInfo& info) {

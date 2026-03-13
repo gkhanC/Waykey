@@ -6,7 +6,6 @@
 #include <iostream>
 
 VirtualDevice::VirtualDevice() {
-    setupDevice();
 }
 
 VirtualDevice::~VirtualDevice() {
@@ -14,6 +13,10 @@ VirtualDevice::~VirtualDevice() {
         ioctl(m_fd, UI_DEV_DESTROY);
         close(m_fd);
     }
+}
+
+void VirtualDevice::setup() {
+    setupDevice();
 }
 
 void VirtualDevice::setupDevice() {

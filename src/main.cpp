@@ -6,6 +6,7 @@ int main() {
     try {
         std::cout << "WayKey Core Test Initializing..." << std::endl;
         VirtualDevice dev;
+        dev.setup();
         std::cout << "Virtual Device registered successfully." << std::endl;
         
         std::cout << "Waiting 2 seconds before simulation..." << std::endl;
